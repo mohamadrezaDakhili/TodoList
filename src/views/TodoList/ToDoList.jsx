@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import ToDoCard from "../component/ToDoCard/ToDoCard";
+import React from "react";
+import ToDoCard from "../../component/ToDoCard/ToDoCard";
 import { connect } from "react-redux";
 function ToDoList({ todoList }) {
   return (
