@@ -1,8 +1,9 @@
 import types from "./todo.types";
+import store from "../store";
 
 export const addTodo = (todo) => {
-  return {
+  store.dispatch({
     type: types.ADD_TO_DO,
-    peyload: todo,
-  };
+    payload: todo,
+  });
 };

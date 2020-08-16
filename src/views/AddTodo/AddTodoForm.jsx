@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Form, Input, FormGroup, Button, Label } from "reactstrap";
-import { connect } from "react-redux";
 import { addTodo } from "../../redux/Todo/todo.actions";
 import { useHistory } from "react-router-dom";
-function AddTodoForm({ addTodo }) {
+import { useDispatch } from "react-redux";
+import types from "../../redux/Todo/todo.types";
+function AddTodoForm() {
   let history = useHistory();
   const [todo, setTodo] = useState({
     title: "",
@@ -35,12 +36,22 @@ function AddTodoForm({ addTodo }) {
     );
   };
 
+  const dispatch = useDispatch();
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    addTodo({
-      id: 3,
-      ...todo,
-      checkList: checkItem,
+    // addTodo({
+    //   id: 3,
+    //   ...todo,
+    //   checkList: checkItem,
+    // });
+    dispatch({
+      type: types.ADD_TO_DO,
+      payload: {
+        id: 3,
+        ...todo,
+        checkList: checkItem,
+      },
     });
     history.push("/");
   };
@@ -85,4 +96,4 @@ function AddTodoForm({ addTodo }) {
   );
 }
 
-export default connect(null, { addTodo })(AddTodoForm);
+export default AddTodoForm;

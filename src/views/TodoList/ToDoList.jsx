@@ -1,7 +1,9 @@
 import React from "react";
 import ToDoCard from "../../component/ToDoCard/ToDoCard";
-import { connect } from "react-redux";
-function ToDoList({ todoList }) {
+import { useSelector } from "react-redux";
+function ToDoList() {
+  const { todoList } = useSelector((state) => state.todo);
+
   return (
     <div>
       {todoList.map((item) => (
@@ -10,9 +12,4 @@ function ToDoList({ todoList }) {
     </div>
   );
 }
-const mapStateToProps = (state) => {
-  return {
-    todoList: state.todo.todoList,
-  };
-};
-export default connect(mapStateToProps, {})(ToDoList);
+export default ToDoList;
