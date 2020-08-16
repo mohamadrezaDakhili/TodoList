@@ -17,7 +17,9 @@ function App() {
             <Route path="/add">
               <AddTodoForm />
             </Route>
-            <Route path="/update/:id"></Route>
+            <Route path="/update/:id">
+              <AddTodoForm />
+            </Route>
             <Route path="/todo/:id"></Route>
           </Switch>
         </Router>

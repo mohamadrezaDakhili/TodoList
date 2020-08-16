@@ -1,26 +1,40 @@
 import React, { useState } from "react";
 import { Form, Input, FormGroup, Button, Label } from "reactstrap";
-import { addTodo } from "../../redux/Todo/todo.actions";
+import { addTodo, editTodo } from "../../redux/Todo/todo.actions";
 import { useHistory } from "react-router-dom";
 import { useDispatch, connect } from "react-redux";
 import { useSelector } from "react-redux";
 import types from "../../redux/Todo/todo.types";
 import { createStructuredSelector } from "reselect";
 import { todoId } from "../../redux/Todo/todo.selectors";
-function AddTodoForm({ addTodo, todoId }) {
+import { useParams } from "react-router-dom";
+function AddTodoForm({ addTodo, todoId, editTodo }) {
   // const todoId2 = useSelector((state) => state.todo.todoList.length + 1);
   let history = useHistory();
-  const [todo, setTodo] = useState({
-    title: "",
-    text: "",
-  });
-  const [checkItem, setCheckItem] = useState([
-    {
-      id: 1,
-      text: "",
-      status: false,
-    },
-  ]);
+  let { id } = useParams();
+
+  const todoObject = useSelector((state) =>
+    state.todo.todoList.find((item) => item.id == id)
+  );
+  const [todo, setTodo] = useState(
+    todoObject
+      ? { title: todoObject.title, text: todoObject.text }
+      : {
+          title: "",
+          text: "",
+        }
+  );
+  const [checkItem, setCheckItem] = useState(
+    todoObject
+      ? todoObject.checkList
+      : [
+          {
+            id: 1,
+            text: "",
+            status: false,
+          },
+        ]
+  );
   const addItem = () => {
     setCheckItem([
       ...checkItem,
@@ -47,11 +61,18 @@ function AddTodoForm({ addTodo, todoId }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addTodo({
-      id: todoId,
-      ...todo,
-      checkList: checkItem,
-    });
+    todoObject
+      ? todoObject &&
+        editTodo({
+          id: todoObject.id,
+          ...todo,
+          checkList: checkItem,
+        })
+      : addTodo({
+          id: todoId,
+          ...todo,
+          checkList: checkItem,
+        });
     // dispatch({
     //   type: types.ADD_TO_DO,
     //   payload: {
@@ -107,4 +128,4 @@ const mapStateToProps = createStructuredSelector({
   todoId,
 });
 // export default AddTodoForm;
-export default connect(mapStateToProps, { addTodo })(AddTodoForm);
+export default connect(mapStateToProps, { addTodo, editTodo })(AddTodoForm);

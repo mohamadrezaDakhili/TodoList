@@ -13,3 +13,9 @@ export const addTodo = (todo) => {
     payload: todo,
   };
 };
+export const editTodo = (todo) => {
+  return {
+    type: types.EDIT_TO_DO,
+    payload: todo,
+  };
+};

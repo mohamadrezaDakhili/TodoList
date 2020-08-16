@@ -1,9 +1,10 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 function ToDoCard({ todo }) {
   return (
     <React.Fragment key={todo.id}>
       <p>{todo.text}</p>
+      <Link to={`/update/${todo.id}`}>Edit</Link>
       <ul>
         {todo.checkList.map((checkitem) => (
           <li key={`${todo.id}${checkitem.id}`}>
