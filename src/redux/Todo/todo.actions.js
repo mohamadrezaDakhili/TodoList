@@ -26,3 +26,10 @@ export const deleteTodo = (todoID) => {
     payload: todoID,
   };
 };
+
+export const toggleTodoCheckItemStatus = (todoID, itemId) => {
+  return {
+    type: types.TOGGLE_CHECK_ITEM_TO_DO,
+    payload: { todoID, itemId },
+  };
+};

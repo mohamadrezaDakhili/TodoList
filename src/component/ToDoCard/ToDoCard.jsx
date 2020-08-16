@@ -1,9 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "reactstrap";
-import { deleteTodo } from "../../redux/Todo/todo.actions";
+import {
+  deleteTodo,
+  toggleTodoCheckItemStatus,
+} from "../../redux/Todo/todo.actions";
 import { connect } from "react-redux";
-function ToDoCard({ todo, deleteTodo }) {
+function ToDoCard({ todo, deleteTodo, toggleTodoCheckItemStatus }) {
   return (
     <React.Fragment key={todo.id}>
       <p>{todo.text}</p>
@@ -17,6 +20,11 @@ function ToDoCard({ todo, deleteTodo }) {
             ) : (
               <p>{checkitem.text}</p>
             )}
+            <span
+              onClick={() => toggleTodoCheckItemStatus(todo.id, checkitem.id)}
+            >
+              done!
+            </span>
           </li>
         ))}
       </ul>
@@ -24,4 +32,6 @@ function ToDoCard({ todo, deleteTodo }) {
   );
 }
 
-export default connect(null, { deleteTodo })(ToDoCard);
+export default connect(null, { deleteTodo, toggleTodoCheckItemStatus })(
+  ToDoCard
+);
