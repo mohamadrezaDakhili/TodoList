@@ -2,9 +2,13 @@ import React, { useState } from "react";
 import { Form, Input, FormGroup, Button, Label } from "reactstrap";
 import { addTodo } from "../../redux/Todo/todo.actions";
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, connect } from "react-redux";
+import { useSelector } from "react-redux";
 import types from "../../redux/Todo/todo.types";
-function AddTodoForm() {
+import { createStructuredSelector } from "reselect";
+import { todoId } from "../../redux/Todo/todo.selectors";
+function AddTodoForm({ addTodo, todoId }) {
+  // const todoId2 = useSelector((state) => state.todo.todoList.length + 1);
   let history = useHistory();
   const [todo, setTodo] = useState({
     title: "",
@@ -18,7 +22,10 @@ function AddTodoForm() {
     },
   ]);
   const addItem = () => {
-    setCheckItem([...checkItem, { id: 1, text: "", status: false }]);
+    setCheckItem([
+      ...checkItem,
+      { id: checkItem.length + 1, text: "", status: false },
+    ]);
   };
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -36,23 +43,23 @@ function AddTodoForm() {
     );
   };
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // addTodo({
-    //   id: 3,
-    //   ...todo,
-    //   checkList: checkItem,
-    // });
-    dispatch({
-      type: types.ADD_TO_DO,
-      payload: {
-        id: 3,
-        ...todo,
-        checkList: checkItem,
-      },
+    addTodo({
+      id: todoId,
+      ...todo,
+      checkList: checkItem,
     });
+    // dispatch({
+    //   type: types.ADD_TO_DO,
+    //   payload: {
+    //     id: 3,
+    //     ...todo,
+    //     checkList: checkItem,
+    //   },
+    // });
     history.push("/");
   };
   return (
@@ -96,4 +103,8 @@ function AddTodoForm() {
   );
 }
 
-export default AddTodoForm;
+const mapStateToProps = createStructuredSelector({
+  todoId,
+});
+// export default AddTodoForm;
+export default connect(mapStateToProps, { addTodo })(AddTodoForm);
