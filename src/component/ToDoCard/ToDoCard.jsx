@@ -1,10 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
-function ToDoCard({ todo }) {
+import { Button } from "reactstrap";
+import { deleteTodo } from "../../redux/Todo/todo.actions";
+import { connect } from "react-redux";
+function ToDoCard({ todo, deleteTodo }) {
   return (
     <React.Fragment key={todo.id}>
       <p>{todo.text}</p>
       <Link to={`/update/${todo.id}`}>Edit</Link>
+      <Button onClick={() => deleteTodo(todo.id)}>Delete me!</Button>
       <ul>
         {todo.checkList.map((checkitem) => (
           <li key={`${todo.id}${checkitem.id}`}>
@@ -20,4 +24,4 @@ function ToDoCard({ todo }) {
   );
 }
 
-export default ToDoCard;
+export default connect(null, { deleteTodo })(ToDoCard);

@@ -61,18 +61,18 @@ function AddTodoForm({ addTodo, todoId, editTodo }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    todoObject
-      ? todoObject &&
-        editTodo({
-          id: todoObject.id,
-          ...todo,
-          checkList: checkItem,
-        })
-      : addTodo({
-          id: todoId,
-          ...todo,
-          checkList: checkItem,
-        });
+    todoObject &&
+      editTodo({
+        id: todoObject.id,
+        ...todo,
+        checkList: checkItem,
+      });
+    !todoObject &&
+      addTodo({
+        id: todoId,
+        ...todo,
+        checkList: checkItem,
+      });
     // dispatch({
     //   type: types.ADD_TO_DO,
     //   payload: {

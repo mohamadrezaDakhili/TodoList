@@ -39,6 +39,12 @@ const todoReducer = (state = initial_state, action) => {
           item.id == payload.id ? payload : item
         ),
       };
+
+    case types.DELETE_TO_DO:
+      return {
+        ...state,
+        todoList: state.todoList.filter((item) => item.id !== payload),
+      };
     default:
       return state;
   }
